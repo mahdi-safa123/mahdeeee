@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نقاط سنتات - شراء وبيع</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fbfd;
+      padding: 20px;
+      text-align: center;
+    }
+    .logo {
+      max-width: 120px;
+      margin: 10px auto;
+    }
+    .tabs {
+      margin: 20px auto;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+    }
+    .tab-button.active {
+      background-color: #0056b3;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    iframe {
+      width: 100%;
+      height: 1800px;
+      border: none;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="icon-192.png" alt="شعار" class="logo">
+  <h1>نظام نقاط سنتات الموحد</h1>
+
+  <div class="tabs">
+    <button class="tab-button active" onclick="showTab('buy')">🛒 شراء</button>
+    <button class="tab-button" onclick="showTab('sell')">💰 بيع</button>
+  </div>
+
+  <div id="buy" class="tab-content active"><iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&amp;quot;ar&amp;quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&amp;quot;UTF-8&amp;quot;&gt;
+  &lt;title&gt;نظام النقاط - موقع جديد&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      padding: 20px;
+      background-color: #f9fbfd;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+      width: 300px;
+    }
+    button {
+      margin-left: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    #notification {
+      background: #e6ffe6;
+      border: 1px solid #2ecc71;
+      color: #2d862d;
+      font-weight: bold;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+    .review-button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .review-button:disabled {
+      background-color: #ff69b4;
+      cursor: not-allowed;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  
+&lt;h1 style=&amp;quot;text-align:center; font-size:32px; color:#222; margin-bottom:20px;&amp;quot;&gt;🪙 شراء نقاط سنتات&lt;/h1&gt;
+&lt;h2&gt;🧮 نظام النقاط (معادلة جديدة)&lt;/h2&gt;
+
+  &lt;div id=&amp;quot;notification&amp;quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    👤 اسم المحاسب: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;accountant&amp;quot;&gt;&lt;br&gt;
+    👥 اسم المستخدم: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;username&amp;quot;&gt;&lt;br&gt;
+    🔢 رمز الإحالة: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;ref&amp;quot;&gt;&lt;br&gt;
+    💬 عدد النقاط: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;points&amp;quot;&gt;&lt;br&gt;
+    &lt;button onclick=&amp;quot;calculateAndSave()&amp;quot;&gt;احسب السعر وأضف للسجل&lt;/button&gt;
+    &lt;button id=&amp;quot;reviewBtn&amp;quot; class=&amp;quot;review-button&amp;quot; onclick=&amp;quot;handleReview()&amp;quot;&gt;✔️ تدقيق&lt;/button&gt;
+    &lt;div id=&amp;quot;result&amp;quot; style=&amp;quot;margin-top:10px;font-weight:bold;&amp;quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    &lt;h3&gt;📋 السجل&lt;/h3&gt;
+    &lt;table id=&amp;quot;logTable&amp;quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;التاريخ&lt;/th&gt;
+          &lt;th&gt;اسم المستخدم&lt;/th&gt;
+          &lt;th&gt;رمز الإحالة&lt;/th&gt;
+          &lt;th&gt;النقاط&lt;/th&gt;
+          &lt;th&gt;السعر&lt;/th&gt;
+          &lt;th&gt;مراجعة&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    &lt;h3&gt;📝 سجل التدقيق&lt;/h3&gt;
+    &lt;table id=&amp;quot;auditLogTable&amp;quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;التاريخ&lt;/th&gt;
+          &lt;th&gt;اسم المستخدم&lt;/th&gt;
+          &lt;th&gt;رمز الإحالة&lt;/th&gt;
+          &lt;th&gt;النقاط&lt;/th&gt;
+          &lt;th&gt;السعر&lt;/th&gt;
+          &lt;th&gt;مراجعة&lt;/th&gt;
+          &lt;th&gt;اسم المحاسب&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;h4&gt;📊 مجموع نقاط التدقيق: &lt;span id=&amp;quot;auditPointsSum&amp;quot;&gt;0&lt;/span&gt;&lt;/h4&gt;
+    &lt;h4&gt;💰 مجموع السعر: &lt;span id=&amp;quot;auditTotalPrice&amp;quot;&gt;0&lt;/span&gt; دينار&lt;/h4&gt;
+    &lt;div style=&amp;quot;text-align:center; margin-top:15px;&amp;quot;&gt;
+      &lt;button onclick=&amp;quot;printAuditOnly()&amp;quot;&gt;🖨️ طباعة سجل التدقيق فقط&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;script&gt;
+let reviewUsed = false;
+
+function calculateAndSave() {
+  const username = document.getElementById(&amp;quot;username&amp;quot;).value;
+  const ref = document.getElementById(&amp;quot;ref&amp;quot;).value;
+  const accountant = document.getElementById(&amp;quot;accountant&amp;quot;).value;
+  const pointsInput = document.getElementById(&amp;quot;points&amp;quot;);
+  const points = parseInt(pointsInput.value.replace(/[^\d]/g, &amp;quot;&amp;quot;)) || 0;
+  const resultElem = document.getElementById(&amp;quot;result&amp;quot;);
+  const notifyElem = document.getElementById(&amp;quot;notification&amp;quot;);
+  notifyElem.textContent = &amp;quot;&amp;quot;;
+
+  if (!points || points &lt;= 0) {
+    resultElem.innerText = &amp;quot;❗ يرجى إدخال عدد نقاط صحيح.&amp;quot;;
+    return;
+  }
+
+  const price = Math.round((points / 5000) * 1320);
+  resultElem.innerText = price.toLocaleString() + &amp;quot; دينار&amp;quot;;
+  notifyElem.textContent = &amp;quot;✅ تم احتساب السعر وإضافته إلى السجل بنجاح.&amp;quot;;
+
+  const table = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+  const row = document.createElement(&amp;quot;tr&amp;quot;);
+  row.innerHTML = `
+    &lt;td&gt;${new Date().toLocaleString(&amp;quot;ar-EG&amp;quot;)}&lt;/td&gt;
+    &lt;td&gt;${username}&lt;/td&gt;
+    &lt;td&gt;${ref}&lt;/td&gt;
+    &lt;td&gt;${points.toLocaleString()}&lt;/td&gt;
+    &lt;td&gt;${price.toLocaleString()}&lt;/td&gt;
+    &lt;td&gt;—&lt;/td&gt;
+  `;
+  table.insertBefore(row, table.firstChild);
+  reviewUsed = false;
+  document.getElementById(&amp;quot;reviewBtn&amp;quot;).disabled = false;
+  pointsInput.value = &amp;quot;&amp;quot;;
+}
+
+function handleReview() {
+  if (reviewUsed) return;
+  markReviewed();
+  document.getElementById(&amp;quot;reviewBtn&amp;quot;).disabled = true;
+  reviewUsed = true;
+}
+
+function markReviewed() {
+  const table = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+  const auditTable = document.querySelector(&amp;quot;#auditLogTable tbody&amp;quot;);
+  const firstRow = table.rows[0];
+  if (!firstRow) return;
+
+  const cols = Array.from(firstRow.cells).map(td =&gt; td.textContent);
+  const accountant = document.getElementById(&amp;quot;accountant&amp;quot;).value;
+
+  const auditRow = document.createElement(&amp;quot;tr&amp;quot;);
+  auditRow.innerHTML = `
+    &lt;td&gt;${new Date().toLocaleString(&amp;quot;ar-EG&amp;quot;)}&lt;/td&gt;
+    &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[1]}&lt;/td&gt;
+    &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[2]}&lt;/td&gt;
+    &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[3]}&lt;/td&gt;
+    &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[4]}&lt;/td&gt;
+    &lt;td&gt;✓&lt;/td&gt;
+    &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${accountant}&lt;/td&gt;
+  `;
+  auditTable.insertBefore(auditRow, auditTable.firstChild);
+  updateAuditPointsSum();
+}
+
+function updateAuditPointsSum() {
+  const rows = document.querySelectorAll(&amp;quot;#auditLogTable tbody tr&amp;quot;);
+  let total = 0;
+  rows.forEach(row =&gt; {
+    const pts = row.cells[3]?.textContent?.replace(/[^\d]/g, &amp;quot;&amp;quot;) || &amp;quot;0&amp;quot;;
+    total += parseInt(pts) || 0;
+  });
+  document.getElementById(&amp;quot;auditPointsSum&amp;quot;).textContent = total.toLocaleString();
+  
+    let totalPrice = 0;
+    rows.forEach(row =&gt; {
+        const price = row.cells[4]?.textContent?.replace(/[^\d]/g, &amp;quot;&amp;quot;) || &amp;quot;0&amp;quot;;
+        totalPrice += parseInt(price) || 0;
+    });
+    document.getElementById(&amp;quot;auditTotalPrice&amp;quot;).textContent = totalPrice.toLocaleString();
+    
+}
+
+function printAuditOnly() {
+  const auditTable = document.getElementById(&amp;quot;auditLogTable&amp;quot;).outerHTML;
+  const w = window.open(&amp;quot;&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;width=800,height=600&amp;quot;);
+  w.document.write(&amp;quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;طباعة سجل التدقيق&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&amp;quot;);
+  w.document.write(&amp;quot;&lt;h2&gt;سجل التدقيق&lt;/h2&gt;&amp;quot;);
+  w.document.write(auditTable);
+  w.document.write(&amp;quot;&lt;/body&gt;&lt;/html&gt;&amp;quot;);
+  w.document.close();
+  w.print();
+}
+
+document.getElementById(&amp;quot;points&amp;quot;).addEventListener(&amp;quot;keydown&amp;quot;, function(event) {
+  if (event.key === &amp;quot;Enter&amp;quot;) {
+    event.preventDefault();
+    calculateAndSave();
+  }
+});
+
+document.addEventListener(&amp;quot;keydown&amp;quot;, function(e) {
+  const active = document.activeElement;
+  if (!active || !active.isContentEditable) return;
+
+  const td = active;
+  const tr = td.parentElement;
+  const rowIndex = tr.rowIndex;
+  const cellIndex = td.cellIndex;
+
+  let target;
+  if (e.key === &amp;quot;ArrowDown&amp;quot;) {
+    const nextRow = tr.nextElementSibling;
+    if (nextRow) target = nextRow.cells[cellIndex];
+  } else if (e.key === &amp;quot;ArrowUp&amp;quot;) {
+    const prevRow = tr.previousElementSibling;
+    if (prevRow &amp;&amp; prevRow.rowIndex &gt; 0) target = prevRow.cells[cellIndex];
+  } else if (e.key === &amp;quot;ArrowLeft&amp;quot;) {
+    if (cellIndex &gt; 0) target = tr.cells[cellIndex - 1];
+  } else if (e.key === &amp;quot;ArrowRight&amp;quot;) {
+    if (cellIndex &lt; tr.cells.length - 1) target = tr.cells[cellIndex + 1];
+  }
+
+  if (target &amp;&amp; target.isContentEditable) {
+    e.preventDefault();
+    target.focus();
+  }
+});
+
+
+const topInputs = Array.from(document.querySelectorAll(&#x27;#accountant, #username, #ref, #points&#x27;));
+
+topInputs.forEach((input, idx) =&gt; {
+  input.addEventListener(&#x27;keydown&#x27;, function (e) {
+    if (e.key === &#x27;ArrowDown&#x27; &amp;&amp; idx &lt; topInputs.length - 1) {
+      e.preventDefault();
+      topInputs[idx + 1].focus();
+    } else if (e.key === &#x27;ArrowUp&#x27; &amp;&amp; idx &gt; 0) {
+      e.preventDefault();
+      topInputs[idx - 1].focus();
+    }
+  });
+});
+
+
+&lt;script&gt;
+window.addEventListener(&amp;quot;DOMContentLoaded&amp;quot;, function() {
+  const logTable = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+  const auditTable = document.querySelector(&amp;quot;#auditLogTable tbody&amp;quot;);
+
+  // Load from localStorage
+  if (localStorage.getItem(&amp;quot;logTableData&amp;quot;)) {
+    logTable.innerHTML = localStorage.getItem(&amp;quot;logTableData&amp;quot;);
+  }
+  if (localStorage.getItem(&amp;quot;auditTableData&amp;quot;)) {
+    auditTable.innerHTML = localStorage.getItem(&amp;quot;auditTableData&amp;quot;);
+  }
+
+  // Save to localStorage on change
+  const observer = new MutationObserver(() =&gt; {
+    localStorage.setItem(&amp;quot;logTableData&amp;quot;, logTable.innerHTML);
+    localStorage.setItem(&amp;quot;auditTableData&amp;quot;, auditTable.innerHTML);
+  });
+  observer.observe(logTable, { childList: true, subtree: true });
+  observer.observe(auditTable, { childList: true, subtree: true });
+});
+&lt;/script&gt;
+
+&lt;script&gt;
+function exportTableToCSV(tableId, filename) {
+    const rows = document.querySelectorAll(`#${tableId} tr`);
+    let csv = [];
+    rows.forEach(row =&gt; {
+        const cols = row.querySelectorAll(&#x27;th, td&#x27;);
+        const rowData = Array.from(cols).map(cell =&gt; `&amp;quot;${cell.textContent.trim()}&amp;quot;`).join(&#x27;,&#x27;);
+        csv.push(rowData);
+    });
+    const blob = new Blob([csv.join(&#x27;\n&#x27;)], { type: &#x27;text/csv;charset=utf-8;&#x27; });
+    const link = document.createElement(&#x27;a&#x27;);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;logTable&#x27;, &#x27;سجل_النقاط.csv&#x27;)&amp;quot;&gt;💾 حفظ السجل&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.csv&#x27;)&amp;quot;&gt;💾 حفظ سجل التدقيق&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&amp;quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+function exportTableToPDF(tableId, filename) {
+  const table = document.getElementById(tableId);
+  if (!table) return alert(&amp;quot;❗ لم يتم العثور على الجدول.&amp;quot;);
+  const clone = table.cloneNode(true);
+  const container = document.createElement(&amp;quot;div&amp;quot;);
+  const title = document.createElement(&amp;quot;h3&amp;quot;);
+  title.innerText = filename.includes(&amp;quot;التدقيق&amp;quot;) ? &amp;quot;📝 سجل التدقيق&amp;quot; : &amp;quot;📋 السجل&amp;quot;;
+  container.appendChild(title);
+  container.appendChild(clone);
+  const opt = {
+    margin:       0.5,
+    filename:     filename,
+    image:        { type: &#x27;jpeg&#x27;, quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: &#x27;in&#x27;, format: &#x27;a4&#x27;, orientation: &#x27;portrait&#x27; }
+  };
+  html2pdf().set(opt).from(container).save();
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;logTable&#x27;, &#x27;سجل_النقاط.pdf&#x27;)&amp;quot;&gt;📄 حفظ السجل PDF&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.pdf&#x27;)&amp;quot;&gt;📄 حفظ سجل التدقيق PDF&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&amp;quot;"></iframe></div><div id="sell" class="tab-content"><iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&amp;quot;ar&amp;quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&amp;quot;UTF-8&amp;quot;&gt;
+  &lt;title&gt;نظام النقاط الجديد&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: &#x27;Arial&#x27;, sans-serif;
+      direction: rtl;
+      padding: 20px;
+      background-color: #f9fbfd;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+      width: 300px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    #notification {
+      background: #e6ffe6;
+      border: 1px solid #2ecc71;
+      color: #2d862d;
+      font-weight: bold;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+  
+&lt;style&gt;
+  .review-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .review-button:disabled {
+    background-color: #ff69b4;
+    cursor: not-allowed;
+  }
+&lt;/style&gt;
+
+&lt;/style&gt;
+
+&lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&gt;
+&lt;style&gt;
+  @media (max-width: 600px) {
+    input, button {
+      width: 100% !important;
+      font-size: 16px;
+    }
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    h1 {
+      font-size: 24px !important;
+    }
+    .card {
+      padding: 10px;
+    }
+  }
+&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 style=&amp;quot;text-align:center; font-size:32px; color:#222; margin-bottom:20px;&amp;quot;&gt;🪙 بيع نقاط سنتات&lt;/h1&gt;
+  &lt;h2&gt;🧮 نظام النقاط&lt;/h2&gt;
+
+  &lt;div id=&amp;quot;notification&amp;quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    👤 اسم المحاسب: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;accountant&amp;quot; placeholder=&amp;quot;اسم المحاسب&amp;quot;&gt;&lt;br&gt;
+    👥 اسم المستخدم: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;username&amp;quot; placeholder=&amp;quot;اسم المستخدم&amp;quot;&gt;&lt;br&gt;
+    🔢 رمز الإحالة: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;ref&amp;quot; placeholder=&amp;quot;رمز الإحالة&amp;quot;&gt;&lt;br&gt;
+    💬 عدد النقاط: &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;points&amp;quot; placeholder=&amp;quot;عدد النقاط&amp;quot;&gt;&lt;br&gt;
+    
+    &lt;button onclick=&amp;quot;calculateAndSave()&amp;quot;&gt;احسب السعر وأضف للسجل&lt;/button&gt;
+    &lt;button id=&amp;quot;reviewBtn&amp;quot; class=&amp;quot;review-button&amp;quot; onclick=&amp;quot;handleReview()&amp;quot;&gt;✔️ تدقيق&lt;/button&gt;
+    
+    &lt;div id=&amp;quot;result&amp;quot; style=&amp;quot;margin-top: 10px; font-weight: bold;&amp;quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    &lt;h3&gt;📋 السجل&lt;/h3&gt;
+    &lt;table id=&amp;quot;logTable&amp;quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;التاريخ&lt;/th&gt;
+          &lt;th&gt;اسم المستخدم&lt;/th&gt;
+          &lt;th&gt;رمز الإحالة&lt;/th&gt;
+          &lt;th&gt;النقاط&lt;/th&gt;
+          &lt;th&gt;السعر&lt;/th&gt;
+          &lt;th&gt;مراجعة&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&amp;quot;card&amp;quot;&gt;
+    &lt;h3&gt;📝 سجل التدقيق&lt;/h3&gt;
+    &lt;table id=&amp;quot;auditLogTable&amp;quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;التاريخ&lt;/th&gt;
+          &lt;th&gt;اسم المستخدم&lt;/th&gt;
+          &lt;th&gt;رمز الإحالة&lt;/th&gt;
+          &lt;th&gt;النقاط&lt;/th&gt;
+          &lt;th&gt;السعر&lt;/th&gt;
+          &lt;th&gt;مراجعة&lt;/th&gt;
+          &lt;th&gt;اسم المحاسب&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;h4&gt;📊 مجموع نقاط التدقيق: &lt;span id=&amp;quot;auditPointsSum&amp;quot;&gt;0&lt;/span&gt;&lt;/h4&gt;
+    &lt;h4&gt;💰 النسبة: &lt;span id=&amp;quot;auditPercentage&amp;quot;&gt;0&lt;/span&gt; دينار&lt;/h4&gt;
+  &lt;/div&gt;
+
+&lt;script&gt;
+const customPointsMap = {
+    28000000: 8212000,
+    14500000: 4250000,
+    3000000: 880000,
+    1555000: 456000,
+    345000: 100000,
+    175000: 51000,
+    36000: 11000,
+    17500: 5000
+};
+
+function calculateCustomPrice(points) {
+    const keys = Object.keys(customPointsMap).map(Number).sort((a,b) =&gt; b - a);
+    let remaining = points;
+    let totalPrice = 0;
+    let matched = false;
+
+    while (remaining &gt;= Math.min(...keys)) {
+        matched = false;
+        for (let i = 0; i &lt; keys.length; i++) {
+            const k = keys[i];
+            if (remaining &gt;= k) {
+                remaining -= k;
+                totalPrice += customPointsMap[k];
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) break;
+    }
+
+    return (remaining === 0 &amp;&amp; totalPrice &gt; 0) ? totalPrice : null;
+}
+
+function calculateAndSave() {
+    const username = document.getElementById(&amp;quot;username&amp;quot;).value;
+    const ref = document.getElementById(&amp;quot;ref&amp;quot;).value;
+    const accountant = document.getElementById(&amp;quot;accountant&amp;quot;).value;
+    const pointsInput = document.getElementById(&amp;quot;points&amp;quot;).value;
+    const points = parseInt(pointsInput.replace(/[^\d]/g, &amp;quot;&amp;quot;)) || 0;
+    const resultElem = document.getElementById(&amp;quot;result&amp;quot;);
+    const notifyElem = document.getElementById(&amp;quot;notification&amp;quot;);
+    notifyElem.textContent = &amp;quot;&amp;quot;;
+
+    if (!points || points &lt;= 0) {
+        resultElem.innerText = &amp;quot;❗ يرجى إدخال عدد نقاط صحيح.&amp;quot;;
+        return;
+    }
+
+    const exceptions = {
+        135000000: 39560000,
+        69000000: 20220000,
+        28000000: 8212000,
+        14500000: 4250000,
+        3000000: 880000,
+        1555000: 456000,
+        345000: 100000,
+        175000: 51000,
+        36000: 11000,
+        17500: 5000
+    };
+
+    let price = exceptions[points];
+    if (price === undefined) {
+        const customPrice = calculateCustomPrice(points);
+        if (customPrice !== null) {
+            price = customPrice;
+        } else {
+            price = Math.round((points / 5000) * 1500);
+        }
+    }
+
+    resultElem.innerText = price.toLocaleString() + &amp;quot; دينار&amp;quot;;
+    notifyElem.textContent = &amp;quot;✅ تم احتساب السعر وإضافته إلى السجل بنجاح.&amp;quot;;
+
+    const table = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+    const row = document.createElement(&amp;quot;tr&amp;quot;);
+    row.innerHTML = `
+        &lt;td&gt;${new Date().toLocaleString(&amp;quot;ar-EG&amp;quot;)}&lt;/td&gt;
+        &lt;td&gt;${username}&lt;/td&gt;
+        &lt;td&gt;${ref}&lt;/td&gt;
+        &lt;td&gt;${points}&lt;/td&gt;
+        &lt;td&gt;${price}&lt;/td&gt;
+        &lt;td&gt;—&lt;/td&gt;
+    `;
+    table.insertBefore(row, table.firstChild);
+}
+
+function markReviewed() {
+    const table = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+    const auditTable = document.querySelector(&amp;quot;#auditLogTable tbody&amp;quot;);
+    const firstRow = table.rows[0];
+    if (!firstRow) return;
+
+    const cols = Array.from(firstRow.cells).map(td =&gt; td.textContent);
+    const accountant = document.getElementById(&amp;quot;accountant&amp;quot;).value;
+
+    
+    const formattedPoints = parseInt(cols[3].replace(/[^\d]/g, &amp;quot;&amp;quot;)).toLocaleString();
+    const formattedPrice = parseInt(cols[4].replace(/[^\d]/g, &amp;quot;&amp;quot;)).toLocaleString();
+    const auditRow = document.createElement(&amp;quot;tr&amp;quot;);
+    auditRow.innerHTML = `
+        &lt;td&gt;${new Date().toLocaleString(&amp;quot;ar-EG&amp;quot;)}&lt;/td&gt;
+        &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[1]}&lt;/td&gt;
+        &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${cols[2]}&lt;/td&gt;
+        &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${formattedPoints}&lt;/td&gt;
+        &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${formattedPrice}&lt;/td&gt;
+        &lt;td&gt;✓&lt;/td&gt;
+        &lt;td contenteditable=&amp;quot;true&amp;quot;&gt;${accountant}&lt;/td&gt;
+    `;
+    auditTable.insertBefore(auditRow, auditTable.firstChild);
+    updateAuditPointsSum();
+}
+
+function updateAuditPointsSum() {
+    const rows = document.querySelectorAll(&amp;quot;#auditLogTable tbody tr&amp;quot;);
+    let total = 0;
+    rows.forEach(row =&gt; {
+        const pts = row.cells[3]?.textContent?.replace(/[^\d]/g, &amp;quot;&amp;quot;) || &amp;quot;0&amp;quot;;
+        total += parseInt(pts) || 0;
+    });
+    document.getElementById(&amp;quot;auditPointsSum&amp;quot;).textContent = total.toLocaleString();
+    document.getElementById(&amp;quot;auditPercentage&amp;quot;).textContent = Math.floor(total / 1000 * 2).toLocaleString();
+}
+
+const topInputs = Array.from(document.querySelectorAll(&#x27;#accountant, #username, #ref, #points&#x27;));
+
+topInputs.forEach((input, idx) =&gt; {
+  input.addEventListener(&#x27;keydown&#x27;, function (e) {
+    if (e.key === &#x27;ArrowDown&#x27; &amp;&amp; idx &lt; topInputs.length - 1) {
+      e.preventDefault();
+      topInputs[idx + 1].focus();
+    } else if (e.key === &#x27;ArrowUp&#x27; &amp;&amp; idx &gt; 0) {
+      e.preventDefault();
+      topInputs[idx - 1].focus();
+    }
+  });
+});
+
+
+let reviewUsed = false;
+
+function handleReview() {
+    if (reviewUsed) return;
+    markReviewed();
+    const btn = document.getElementById(&amp;quot;reviewBtn&amp;quot;);
+    btn.disabled = true;
+    reviewUsed = true;
+}
+
+
+document.getElementById(&amp;quot;points&amp;quot;).addEventListener(&amp;quot;keydown&amp;quot;, function(event) {
+  if (event.key === &amp;quot;Enter&amp;quot;) {
+    event.preventDefault();
+    calculateAndSave();
+  }
+});
+
+
+&lt;script&gt;
+window.addEventListener(&amp;quot;DOMContentLoaded&amp;quot;, function() {
+  const logTable = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+  const auditTable = document.querySelector(&amp;quot;#auditLogTable tbody&amp;quot;);
+
+  // Load from localStorage
+  if (localStorage.getItem(&amp;quot;logTableData&amp;quot;)) {
+    logTable.innerHTML = localStorage.getItem(&amp;quot;logTableData&amp;quot;);
+  }
+  if (localStorage.getItem(&amp;quot;auditTableData&amp;quot;)) {
+    auditTable.innerHTML = localStorage.getItem(&amp;quot;auditTableData&amp;quot;);
+  }
+
+  // Save to localStorage on change
+  const observer = new MutationObserver(() =&gt; {
+    localStorage.setItem(&amp;quot;logTableData&amp;quot;, logTable.innerHTML);
+    localStorage.setItem(&amp;quot;auditTableData&amp;quot;, auditTable.innerHTML);
+  });
+  observer.observe(logTable, { childList: true, subtree: true });
+  observer.observe(auditTable, { childList: true, subtree: true });
+});
+&lt;/script&gt;
+
+&lt;script&gt;
+function exportTableToCSV(tableId, filename) {
+    const rows = document.querySelectorAll(`#${tableId} tr`);
+    let csv = [];
+    rows.forEach(row =&gt; {
+        const cols = row.querySelectorAll(&#x27;th, td&#x27;);
+        const rowData = Array.from(cols).map(cell =&gt; `&amp;quot;${cell.textContent.trim()}&amp;quot;`).join(&#x27;,&#x27;);
+        csv.push(rowData);
+    });
+    const blob = new Blob([csv.join(&#x27;\n&#x27;)], { type: &#x27;text/csv;charset=utf-8;&#x27; });
+    const link = document.createElement(&#x27;a&#x27;);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;logTable&#x27;, &#x27;سجل_النقاط.csv&#x27;)&amp;quot;&gt;💾 حفظ السجل&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.csv&#x27;)&amp;quot;&gt;💾 حفظ سجل التدقيق&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&amp;quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+function exportTableToPDF(tableId, filename) {
+  const table = document.getElementById(tableId);
+  if (!table) return alert(&amp;quot;❗ لم يتم العثور على الجدول.&amp;quot;);
+  const clone = table.cloneNode(true);
+  const container = document.createElement(&amp;quot;div&amp;quot;);
+  const title = document.createElement(&amp;quot;h3&amp;quot;);
+  title.innerText = filename.includes(&amp;quot;التدقيق&amp;quot;) ? &amp;quot;📝 سجل التدقيق&amp;quot; : &amp;quot;📋 السجل&amp;quot;;
+  container.appendChild(title);
+  container.appendChild(clone);
+  const opt = {
+    margin:       0.5,
+    filename:     filename,
+    image:        { type: &#x27;jpeg&#x27;, quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: &#x27;in&#x27;, format: &#x27;a4&#x27;, orientation: &#x27;portrait&#x27; }
+  };
+  html2pdf().set(opt).from(container).save();
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;logTable&#x27;, &#x27;سجل_النقاط.pdf&#x27;)&amp;quot;&gt;📄 حفظ السجل PDF&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.pdf&#x27;)&amp;quot;&gt;📄 حفظ سجل التدقيق PDF&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/script&gt;
+
+  &lt;div style=&amp;quot;text-align:center; margin-top:30px;&amp;quot;&gt;
+    &lt;button onclick=&amp;quot;printAuditOnly()&amp;quot; style=&amp;quot;padding: 10px 20px; font-size: 16px;&amp;quot;&gt;🖨️ طباعة سجل التدقيق فقط&lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;script&gt;
+function printAuditOnly() {
+    const auditTable = document.getElementById(&amp;quot;auditLogTable&amp;quot;).outerHTML;
+    const w = window.open(&amp;quot;&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;width=800,height=600&amp;quot;);
+    w.document.write(&amp;quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;طباعة سجل التدقيق&lt;/title&gt;
+&lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&gt;
+&lt;style&gt;
+  @media (max-width: 600px) {
+    input, button {
+      width: 100% !important;
+      font-size: 16px;
+    }
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    h1 {
+      font-size: 24px !important;
+    }
+    .card {
+      padding: 10px;
+    }
+  }
+&lt;/style&gt;
+
+&lt;/head&gt;&lt;body&gt;
+&lt;h1 style=&amp;quot;text-align:center; font-size:32px; color:#222; margin-bottom:20px;&amp;quot;&gt;🪙 بيع نقاط سنتات&lt;/h1&gt;&amp;quot;);
+    w.document.write(&amp;quot;&lt;h2&gt;سجل التدقيق&lt;/h2&gt;&amp;quot;);
+    w.document.write(auditTable);
+    w.document.write(&amp;quot;&lt;/body&gt;&lt;/html&gt;&amp;quot;);
+    w.document.close();
+    w.print();
+}
+
+const topInputs = Array.from(document.querySelectorAll(&#x27;#accountant, #username, #ref, #points&#x27;));
+
+topInputs.forEach((input, idx) =&gt; {
+  input.addEventListener(&#x27;keydown&#x27;, function (e) {
+    if (e.key === &#x27;ArrowDown&#x27; &amp;&amp; idx &lt; topInputs.length - 1) {
+      e.preventDefault();
+      topInputs[idx + 1].focus();
+    } else if (e.key === &#x27;ArrowUp&#x27; &amp;&amp; idx &gt; 0) {
+      e.preventDefault();
+      topInputs[idx - 1].focus();
+    }
+  });
+});
+
+
+let reviewUsed = false;
+
+function handleReview() {
+    if (reviewUsed) return;
+    markReviewed();
+    const btn = document.getElementById(&amp;quot;reviewBtn&amp;quot;);
+    btn.disabled = true;
+    reviewUsed = true;
+}
+
+
+document.getElementById(&amp;quot;points&amp;quot;).addEventListener(&amp;quot;keydown&amp;quot;, function(event) {
+  if (event.key === &amp;quot;Enter&amp;quot;) {
+    event.preventDefault();
+    calculateAndSave();
+  }
+});
+
+
+&lt;script&gt;
+window.addEventListener(&amp;quot;DOMContentLoaded&amp;quot;, function() {
+  const logTable = document.querySelector(&amp;quot;#logTable tbody&amp;quot;);
+  const auditTable = document.querySelector(&amp;quot;#auditLogTable tbody&amp;quot;);
+
+  // Load from localStorage
+  if (localStorage.getItem(&amp;quot;logTableData&amp;quot;)) {
+    logTable.innerHTML = localStorage.getItem(&amp;quot;logTableData&amp;quot;);
+  }
+  if (localStorage.getItem(&amp;quot;auditTableData&amp;quot;)) {
+    auditTable.innerHTML = localStorage.getItem(&amp;quot;auditTableData&amp;quot;);
+  }
+
+  // Save to localStorage on change
+  const observer = new MutationObserver(() =&gt; {
+    localStorage.setItem(&amp;quot;logTableData&amp;quot;, logTable.innerHTML);
+    localStorage.setItem(&amp;quot;auditTableData&amp;quot;, auditTable.innerHTML);
+  });
+  observer.observe(logTable, { childList: true, subtree: true });
+  observer.observe(auditTable, { childList: true, subtree: true });
+});
+&lt;/script&gt;
+
+&lt;script&gt;
+function exportTableToCSV(tableId, filename) {
+    const rows = document.querySelectorAll(`#${tableId} tr`);
+    let csv = [];
+    rows.forEach(row =&gt; {
+        const cols = row.querySelectorAll(&#x27;th, td&#x27;);
+        const rowData = Array.from(cols).map(cell =&gt; `&amp;quot;${cell.textContent.trim()}&amp;quot;`).join(&#x27;,&#x27;);
+        csv.push(rowData);
+    });
+    const blob = new Blob([csv.join(&#x27;\n&#x27;)], { type: &#x27;text/csv;charset=utf-8;&#x27; });
+    const link = document.createElement(&#x27;a&#x27;);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;logTable&#x27;, &#x27;سجل_النقاط.csv&#x27;)&amp;quot;&gt;💾 حفظ السجل&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToCSV(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.csv&#x27;)&amp;quot;&gt;💾 حفظ سجل التدقيق&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js&amp;quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+function exportTableToPDF(tableId, filename) {
+  const table = document.getElementById(tableId);
+  if (!table) return alert(&amp;quot;❗ لم يتم العثور على الجدول.&amp;quot;);
+  const clone = table.cloneNode(true);
+  const container = document.createElement(&amp;quot;div&amp;quot;);
+  const title = document.createElement(&amp;quot;h3&amp;quot;);
+  title.innerText = filename.includes(&amp;quot;التدقيق&amp;quot;) ? &amp;quot;📝 سجل التدقيق&amp;quot; : &amp;quot;📋 السجل&amp;quot;;
+  container.appendChild(title);
+  container.appendChild(clone);
+  const opt = {
+    margin:       0.5,
+    filename:     filename,
+    image:        { type: &#x27;jpeg&#x27;, quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: &#x27;in&#x27;, format: &#x27;a4&#x27;, orientation: &#x27;portrait&#x27; }
+  };
+  html2pdf().set(opt).from(container).save();
+}
+&lt;/script&gt;
+&lt;div style=&amp;quot;margin-top: 10px;&amp;quot;&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;logTable&#x27;, &#x27;سجل_النقاط.pdf&#x27;)&amp;quot;&gt;📄 حفظ السجل PDF&lt;/button&gt;
+  &lt;button onclick=&amp;quot;exportTableToPDF(&#x27;auditLogTable&#x27;, &#x27;سجل_التدقيق.pdf&#x27;)&amp;quot;&gt;📄 حفظ سجل التدقيق PDF&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+&amp;quot;"></iframe></div>
+<script>
+  function showTab(tabId) {
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(div => div.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
